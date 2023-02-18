@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8080/styles.css">
+    <title>User Authentication Test</title>
+</head>
+<body>
+    <div>
+        <a href="http://localhost:8080/">Home</a>
+        <a href="http://localhost:8080/posts">Posts</a>
+        <a id="login_btn" href="http://localhost:8080/login">Login</a>
+        <a id="signup_btn" href="http://localhost:8080/signup">Signup</a>
+        <a onclick="fetchAddPostPage()">Add Post</a>
+    </div>
+    <br>
+    <h1>Add Post</h1>
+
+    <form id="add_post_form">                    
+        <label for="title">Title</label><br>
+        <input  type="text" name="title" value=""><br><br>
+        <label for="body">Body</label><br>
+        <input  type="text" name="body" value=""><br><br>
+        <input type="submit" value="Add Post">
+        <p id="message_p"></p>
+    </form>
+    
+    <script>
+        const form = document.getElementById("add_post_form");
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            //TODO add userID to formdata
+            fetch("http://localhost:8080/api/post/add", {
+            method: "post",                      
+            body: formData    
+        }).then(response => {
+            if (response.ok) {
+                response.json().then(data => {                                   
+                    window.location.href = "http://localhost:8080/posts";                  
+                });
+            } else {
+                console.log("Post Not Added");
+            }
+        });
+        });
+
+        function fetchAddPostPage(){
+            //TODO get jwt from local storage and send a GET request to "http://localhost:8080/addPost" along with JWT token           
+        }
+    </script>
+
+</body>
+</html>

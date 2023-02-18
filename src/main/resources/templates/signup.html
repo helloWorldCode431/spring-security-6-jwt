@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8080/styles.css">
+    <title>User Authentication Test</title>
+</head>
+<body>
+    <div>
+        <a href="http://localhost:8080/">Home</a>
+        <a href="http://localhost:8080/posts">Posts</a>
+        <a id="login_btn" href="http://localhost:8080/login">Login</a>
+        <a id="signup_btn" href="http://localhost:8080/signup">Signup</a>
+    </div>
+    <br>
+    <h1>Sign Up</h1>
+    <form id="signup_form">
+        <label for="username">Username</label><br>
+        <input class="login-text-input" type="text" id="username_input" name="username" value=""><br><br>
+        <label for="email">Email</label><br>
+        <input class="login-text-input" type="text" id="email_input" name="email" value=""><br><br>
+        <label for="password">Password</label><br>
+        <input class="login-text-input" type="password" id="password_input" name="password" value=""><br><br>
+        <input class="submit-btn" type="submit" value="Sign up">
+        <p id="message_p"></p>
+        
+    </form>
+    
+    <script>        
+        const form = document.getElementById("signup_form");
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch("http://localhost:8080/user/signup", {
+                method: "post",                      
+                body: formData    
+            }).then( response => response.json())
+            .then( user => {
+                console.log(user);
+                                            
+            });
+        });
+                  
+    </script>
+
+</body>
+</html>

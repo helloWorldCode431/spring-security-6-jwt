@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8080/styles.css">
+    <title>User Authentication Test</title>
+</head>
+<body>
+    <div>
+        <a href="http://localhost:8080/">Home</a>
+        <a href="http://localhost:8080/posts">Posts</a>
+        <a id="login_btn" href="http://localhost:8080/login">Login</a>
+        <a id="signup_btn" href="http://localhost:8080/signup">Signup</a>        
+    </div>
+    
+    <br>
+    
+    <h1>Posts</h1>
+    <div id="post_list">        
+                
+    </div> 
+
+</body>
+<script>
+
+const jwt = localStorage.getItem('jwt');
+
+if (jwt) {    
+    const payload = JSON.parse(atob(jwt.split('.')[1]));
+
+    const userId = payload.sub;
+    const username = payload.username;
+    const email = payload.email;
+
+    console.log(`User ID: ${userId}`);
+    console.log(`Username: ${username}`);
+    console.log(`Email: ${email}`);
+
+    //TODO Change signup button to username
+    //TODO change login button to logout, create a log out method for either client side or server side.
+    //TODO add Add Post button to navigation bar
+} else {
+    console.log("No JWT token found");
+}
+
+
+const postListDiv = document.getElementById("post_list");
+fetch("http://localhost:8080/api/post/getList", {
+    method: "get"   
+}).then( response => response.json())
+.then( postList => {
+    console.log(postList);
+
+    for(let i = 0; i < postList.length; i++){
+        var div = document.createElement("div");
+        div.className = "post";
+        var h3 = document.createElement("h3");
+        h3.innerHTML = postList[i].title;
+        div.appendChild(h3);        
+        var p = document.createElement("p");
+        p.innerHTML = postList[i].body;
+        div.appendChild(p);
+        postListDiv.appendChild(div);
+    }
+    
+
+});
+
+
+</script>
+</html>

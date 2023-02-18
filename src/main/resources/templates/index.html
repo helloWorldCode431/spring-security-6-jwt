@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8080/styles.css">
+    <title>User Authentication Test</title>
+</head>
+<body>
+    <div>
+        <a href="http://localhost:8080/">Home</a>
+        <a href="http://localhost:8080/posts">Posts</a>
+        <a id="login_btn" href="http://localhost:8080/login">Login</a>
+        <a id="signup_btn" href="http://localhost:8080/signup">Signup</a>
+    </div>
+    <br>
+
+    <h1>Home</h1>
+    <p>This is a JWT example using Spring Security 6. This is example is mean't to focus on all of the security implementations that a modern website has.</p>
+    <p>This example should include: User signup, login, verifying the email of a user, forgot password, user settings, and user authorization for updating the database.
+        Also the implmentation of sending and recieveing the JWT to and from the client and server.
+    </p>
+    
+
+
+</body>
+<script>
+const jwt = localStorage.getItem('jwt');
+
+if (jwt) {    
+    const payload = JSON.parse(atob(jwt.split('.')[1]));
+
+    const userId = payload.sub;
+    const username = payload.username;
+    const email = payload.email;
+
+    console.log(`User ID: ${userId}`);
+    console.log(`Username: ${username}`);
+    console.log(`Email: ${email}`);
+
+    //TODO Change signup button to the users username
+    //TODO change login button to logout, create a log out method for either client side or server side.
+    //TODO add Add Post button to navigation bar
+} else {
+    console.log("No JWT token found");
+}
+</script>
+</html>
